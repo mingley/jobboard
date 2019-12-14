@@ -1,4 +1,5 @@
 var CronJob = require('cron').CronJob;
-new CronJob('* * * * * *', function() {
-  console.log('You will see this message every second');
-}, null, true, 'America/Los_Angeles');
+
+const fetchGithubJobs = require('./tasks/fetch-github.js');
+
+new CronJob('*/1 * * * *', fetchGithubJobs, null, true, 'America/Los_Angeles');

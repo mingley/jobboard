@@ -20,5 +20,3 @@ async function fetchGitHub(){
 }
 
 module.exports = fetchGitHub;
-
-module.exports();
