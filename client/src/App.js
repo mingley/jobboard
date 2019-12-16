@@ -3,20 +3,13 @@ import './App.css';
 import Jobs from "./Jobs";
 import fetch from 'node-fetch';
 
-const job_api_url = 'http://localhost:3001/jobs'
-
-const mockjobs = [
-  {title: 'SWE 1', company: 'Google'},
-  {title: 'SWE 1', company: 'Facebook'},
-  {title: 'SWE 1', company: 'Apple'},
-]
+const job_api_url = 'http://localhost:3001/api/jobs'
 
 async function fetchJobs(updateCb) {
   const res = await fetch(job_api_url);
   let json = await res.json();
 
   updateCb(json);
-  console.log({json})
 }
 
 function App() {
@@ -29,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <Jobs jobs={mockjobs} />
+      <Jobs jobs={jobList} />
     </div>
   );
 }
