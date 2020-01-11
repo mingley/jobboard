@@ -10,10 +10,29 @@ import KeyboardArrowRight from "@material-ui/icons/KeyboardArrowRight";
 
 
 import Job from "./Job";
+import JobModal from "./JobModal";
 
 export default function Jobs({jobs}){
 
-    const [activeStep, setActiveStep] = useState(0);
+    //modal
+    const [open, setOpen] = React.useState(false);
+    const [selectedJob, selectJob] = React.useState({});
+  
+    const handleClickOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleClose = () => {
+      setOpen(false);
+    };
+
+    //pagination
+    const numJobs = jobs.length;
+    const numPages = Math.ceil(numJobs/50);
+
+    const [activeStep, setActiveStep] = useState(0); 
+
+    const jobsOnPage = jobs.slice(activeStep * 50, (activeStep * 50 + 50));
 
     function handleNext(){
         setActiveStep(prevActiveStep => prevActiveStep + 1);
@@ -25,18 +44,29 @@ export default function Jobs({jobs}){
 
     return(
         <div className="jobs">
+            <JobModal open={open} job={selectedJob} handleClose={handleClose}/>
           <Typography variant="h4" component="h1">
               Entry Level Software Jobs
           </Typography>
+          <Typography variant="h6" component="h1">
+              Found {numJobs} Jobs.
+          </Typography>
           {
-              jobs.map(
-                  (job, i) => <Job key={i}job={job} />
+              jobsOnPage.map(
+                  (job, i) => <Job key={i}job={job} onClick={() => {
+                      handleClickOpen();
+                      selectJob(job)
+                    }}/>
               )
           }
 
+        <div>
+            Page {activeStep+1} of {numPages} 
+        </div>
+
         <MobileStepper
             variant="progress"
-            steps={6}
+            steps={Math.ceil(numJobs/50)}
             position="static"
             activeStep={activeStep}
             nextButton={
